@@ -14,22 +14,25 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
-import { store } from './redux/store';
+import { store, persistor } from './redux/store';
 
 import TodoForm from './components/Todos/Form';
 import TodoList from './components/Todos/List';
 import TodoModal from './components/Todos/Modal';
 
 import './scss/main.scss';
+import { PersistGate } from 'redux-persist/integration/react';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <main className="main">
-        <TodoForm />
-        <TodoList />
-        <TodoModal />
-      </main>
+        <main className="main">
+          <TodoForm />
+          <PersistGate persistor={persistor}>
+            <TodoList />
+            <TodoModal />
+          </PersistGate>
+        </main>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

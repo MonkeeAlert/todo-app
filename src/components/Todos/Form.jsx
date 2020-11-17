@@ -14,7 +14,7 @@ function TodoForm() {
   const handleSubmit = _ => {
     if(inputRef.current.value === '') return false;
     
-    const todo = { title: inputRef.current.value, id: generateId() };
+    const todo = { title: inputRef.current.value, id: generateId(), counter : 0 };
     dispatch(addTodo( todo ));
 
     inputRef.current.value = '';

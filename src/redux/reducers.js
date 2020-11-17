@@ -1,6 +1,13 @@
 import * as action from './actions';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer } from 'redux-persist';
 
-export const rootReducer = ( state, {type, payload} ) => {
+const persistConfig = {
+  key: 'root',
+  storage
+}
+
+const rootReducer = ( state, {type, payload} ) => {
   switch(type) {
     case action.ADD_TODO:
       return{
@@ -31,3 +38,5 @@ export const rootReducer = ( state, {type, payload} ) => {
     default: return  { ...state }
   }
 }
+
+export const persistedReducer = persistReducer(persistConfig, rootReducer);

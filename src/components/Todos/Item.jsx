@@ -3,7 +3,7 @@ import { toggleModal } from '../../redux/actions';
 import Button from '../Controls/Button/Button'
 import { useDispatch, useStore } from 'react-redux';
 
-export default function TodoItem({id, title}) {
+export default function TodoItem({id, title, counter}) {
   let timer = useRef();
   let stopwatch = useRef();
   let start = useRef();
@@ -12,7 +12,7 @@ export default function TodoItem({id, title}) {
   const [ isPaused, setState ] = useState(true);
   const dispatch = useDispatch();
   const store = useStore();
-  
+
   const handleStart = _ => {
     start.current = Date.now() - elapsed.current;
     let diffS, diffM, diffH, diffD;
@@ -39,15 +39,15 @@ export default function TodoItem({id, title}) {
 
       dispatch(toggleModal({ context: todo, isVisible: false }));
     }
-    console.log(store.getState().modal);
+
     setState(false);
   }
 
   const handleStop = _ => {
     if(timer.current !== undefined) {
       if(store.getState().modal.isVisible) {
-        const todo = { id, timer : timer.current }
-
+        const todo = { id, timer : timer.current };
+        
         dispatch(toggleModal({ context: todo, isVisible: false }));
       }
       

@@ -11,6 +11,12 @@
       margin-bottom: 15px;
     }
   }
+
+  .modal {
+    &__window {
+      margin: 0 15px;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -35,6 +41,7 @@
       }
     }
   }
+
 }
 
 @media (max-width: 568px) {
@@ -64,6 +71,12 @@
           right: 10px;
         }
       }
+    }
+  }
+
+  .modal {
+    &__buttons {
+      max-width: 75%;
     }
   }
 }

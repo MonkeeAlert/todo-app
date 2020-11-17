@@ -1,5 +1,6 @@
 import { createStore } from 'redux';
-import { rootReducer } from './reducers';
+import { persistedReducer } from './reducers';
+import { persistStore } from 'redux-persist';
 
 const initialState = {
   todos: [],
@@ -9,8 +10,12 @@ const initialState = {
   }
 }
 
-export const store = createStore(
-  rootReducer, 
+const store = createStore(
+  persistedReducer, 
   initialState,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
+
+const persistor = persistStore(store);
+
+export {store, persistor};
