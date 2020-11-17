@@ -1,39 +1,18 @@
-// ● Каждый элемент списка состоит из:
-// o Названия задачи
-// o Затраченного времени
-// o Кнопки Start/Stop
-// o Кнопки Delete
-
-// ● При нажатии кнопки Start таймер, задачи продолжает свой отсчёт, при
-// нажатии Stop встаёт на паузу
-
-// ● При нажатии кнопки Delete появляется модальное окно с вопросом «Вы
-// уверены»? Да/Нет. Если да, задачу удаляем.
-
-// ● У каждой задачи свой индивидуальный таймер. Любую задачу из списка в
-// любой момент можно запустить\остановить. Запуск\остановка таймера
-// задачи не должна влиять на другие задачи.
-
-// ● Название в задаче является необязательным, но при этом задача должна
-// идентифицироваться, как отдельная задача. Может существовать
-// несколько задач с одинаковым названием или без него.
-
-
 import React, { useState, useRef } from 'react'
-import { removeTodo } from '../../redux/actions';
+import { toggleModal } from '../../redux/actions';
 import Button from '../Controls/Button/Button'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useStore } from 'react-redux';
 
 export default function TodoItem({id, title}) {
   let timer = useRef();
   let stopwatch = useRef();
-
   let start = useRef();
   let elapsed = useRef(0);
 
   const [ isPaused, setState ] = useState(true);
   const dispatch = useDispatch();
-
+  const store = useStore();
+  
   const handleStart = _ => {
     start.current = Date.now() - elapsed.current;
     let diffS, diffM, diffH, diffD;
@@ -42,51 +21,63 @@ export default function TodoItem({id, title}) {
     timer.current = setInterval( _ => {
       elapsed.current = Date.now() - start.current;
 
-      diffS = Math.floor(elapsed.current / 1000);
-      diffM = Math.floor(diffS / 60);
-      diffH = Math.floor(diffM / 60);
-      diffD = Math.floor(diffH / 24);
+      diffD = Math.floor(elapsed.current / (1000 * 60 * 60 * 24));
+      diffH = Math.floor((elapsed.current % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      diffM = Math.floor((elapsed.current % (1000 * 60 * 60)) / (1000 * 60));
+      diffS = Math.floor((elapsed.current % (1000 * 60)) / 1000);
       
       ss = diffS.toString().padStart(2, '0');
       mm = diffM.toString().padStart(2, '0');
       hh = diffH.toString().padStart(2, '0');
       dd = diffD.toString().padStart(2, '0');
 
-      // seconds = Math.floor(elapsed.current / 1000).toString().padStart(2, '0');
-      // minutes = Math.floor(elapsed.current / 1000 * 60).toString().padStart(2, '0');
-      // hours = elapsed.current/1000*60*60;
-
-      console.log(`${dd}:${hh}:${mm}:${ss}`);
-      stopwatch.current.innerHTML = `${dd}:${hh}:${mm}:${ss}`
+      stopwatch.current.innerHTML = `${dd}:${hh}:${mm}:${ss}`;
     }, 1000 );
+
+    if(store.getState().modal.isVisible) {
+      const todo = { id, timer : timer.current }
+
+      dispatch(toggleModal({ context: todo, isVisible: false }));
+    }
+    console.log(store.getState().modal);
     setState(false);
   }
 
   const handleStop = _ => {
-    
-    clearInterval(timer.current);
+    if(timer.current !== undefined) {
+      if(store.getState().modal.isVisible) {
+        const todo = { id, timer : timer.current }
+
+        dispatch(toggleModal({ context: todo, isVisible: false }));
+      }
+      
+      clearInterval(timer.current);
+    }
 
     setState(true);
   }
 
-  const handleRemove = _ => {
-    clearInterval(timer.current);
-    dispatch(removeTodo(id))  
+  const showModal = _ => {
+    handleStop();
+    const todo = { id, timer : timer.current }
+
+    dispatch(toggleModal({ context: todo, isVisible: true}));  
   }
 
   return (
-    <li>
-      <p>{title}</p>
-      <p>
-        <span ref={stopwatch}>dd:hh:mm:ss</span>
-
+    <li className="todo__list-item">
+      <p className="text text--header todo__list-block todo__list-block--header todo__list-text todo__list-text--header">{title}</p>
+      <p className="text text--header todo__list-block todo__list-block--timer todo__list-text todo__list-text--header">
+        <span ref={stopwatch}>00:00:00:00</span>
         { 
           isPaused ? 
-            <Button type="button" text="start" onButtonClick={ handleStart } /> : 
-            <Button type="button" text="pause" onButtonClick={ handleStop } /> 
+            <Button type="button" className="button button--icon button--play" onButtonClick={ handleStart }  /> : 
+            <Button type="button" className="button button--icon button--pause" onButtonClick={ handleStop }  /> 
         }
       </p>
-      <Button type="button" text="delete" onButtonClick={ handleRemove }/>
+      <div className="todo__list-block todo__list-block--delete">
+        <Button className="button button--icon button--delete" type="button" onButtonClick={ showModal }/>
+      </div>
     </li>
   )
 }

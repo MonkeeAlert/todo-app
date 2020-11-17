@@ -17,18 +17,14 @@ export function generateId() {
   return id;
 }
 
-// export function findBranch( where, what ) {
-//   const arr = what.split('.');
-//   let lastSuccessPath = where;
-  
-//   for( let i = 0; i < Object.keys(where).length; i += 1) {
-//     for( let j = 0; j < arr.length; j += 1) {
-//       if(Object.keys(where)[i] === arr[j]) 
-//         return findBranch(lastSuccessPath[arr[j]], arr.slice(1, arr.length).join('.'))
-//       else 
-//         break;
-//     }
-//   }
+export function getDefaultPlaceholder() {
+  const defaultPlaceholders = [
+    'Сделать пиццу',
+    'Поиграть на гитаре',
+    'Сходить в магазин',
+    'Прогуляться',
+    'Встретиться с друзьями'
+  ];
 
-//   return lastSuccessPath
-// }
+  return defaultPlaceholders[Math.floor(Math.random() * (defaultPlaceholders.length - 1))];
+}

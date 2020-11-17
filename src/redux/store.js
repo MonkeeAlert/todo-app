@@ -2,7 +2,11 @@ import { createStore } from 'redux';
 import { rootReducer } from './reducers';
 
 const initialState = {
-  todos: []
+  todos: [],
+  modal: {
+    context: null,
+    isVisible: false
+  }
 }
 
 export const store = createStore(

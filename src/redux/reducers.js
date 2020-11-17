@@ -14,10 +14,18 @@ export const rootReducer = ( state, {type, payload} ) => {
     case action.REMOVE_TODO:
       const todos = state.todos.filter( i => i.id !== payload )
       
-      console.log(payload);
       return {
         ...state,
         todos
+      }  
+
+    case action.TOGGLE_MODAL:  
+      return {
+        ...state,
+        modal: { 
+          context : payload.context, 
+          isVisible : payload.isVisible 
+        }
       }  
     
     default: return  { ...state }

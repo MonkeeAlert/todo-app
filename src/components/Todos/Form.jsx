@@ -3,27 +3,41 @@ import { useDispatch } from 'react-redux';
 import Input from '../Controls/Input/Input';
 import Button from '../Controls/Button/Button';
 import { addTodo } from '../../redux/actions';
-import { generateId } from '../../utils/functions';
+import { generateId, getDefaultPlaceholder } from '../../utils/functions';
+import Form from '../Form/Form';
 
 function TodoForm() {
   const dispatch = useDispatch();
   const inputRef = useRef();
 
-  const handleSubmit = e => {
-    e.preventDefault()
 
+  const handleSubmit = _ => {
     if(inputRef.current.value === '') return false;
     
     const todo = { title: inputRef.current.value, id: generateId() };
     dispatch(addTodo( todo ));
+
     inputRef.current.value = '';
+    inputRef.current.placeholder = getDefaultPlaceholder()
   }
 
   return (
-    <form onSubmit={ handleSubmit }>
-      <Input ref={inputRef} type='text' placeholder='Make a sandwich'/>
-      <Button type='submit' text="Create"/>
-    </form>
+    <Form 
+      onSubmitEvent={ handleSubmit } 
+      className="todo__form" 
+    >
+      <Input 
+        ref={inputRef} 
+        type='text' 
+        placeholder={ getDefaultPlaceholder() }
+        className="input todo__form-input"
+      />
+      <Button 
+        type='submit' 
+        text="Добавить"
+        className="button button--teal"
+      />
+    </Form>
   )
 }
 

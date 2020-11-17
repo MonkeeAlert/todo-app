@@ -12,20 +12,24 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Input from './components/Controls/Input/Input';
-import Button from './components/Controls/Button/Button';
 import reportWebVitals from './reportWebVitals';
-import TodoForm from './components/Todos/Form';
-import TodoList from './components/Todos/List';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { addTodo } from './redux/actions';
+
+import TodoForm from './components/Todos/Form';
+import TodoList from './components/Todos/List';
+import TodoModal from './components/Todos/Modal';
+
+import './scss/main.scss';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <TodoForm />
-      <TodoList/>
+      <main className="main">
+        <TodoForm />
+        <TodoList />
+        <TodoModal />
+      </main>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

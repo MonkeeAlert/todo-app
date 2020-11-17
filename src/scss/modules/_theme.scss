@@ -1,37 +1,123 @@
 .main {
-  &--registration {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  max-width: 1024px;
+  margin: auto;
+  position: relative;
+}
+
+.todo {
+  &__form {
+    width: 100%;
+    max-width: 1024px;
     display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
-}
-
-.form {
-  &--registration {
-    background-color: $white;
-    width: 460px;
-    border-radius: 24px;
-    padding: 40px 30px;
-    box-sizing: border-box;
-    box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
-  }
-
-  &__row {
-    position: relative;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 25px 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    width: 100%;
     
-    &--header {
-      margin-bottom: 60px;
-    }
+    &-input {
+      width: 100%;
+      border-right: none;
+      border-color: $teal;
 
-    &:not(:last-child) {
-      margin-bottom: 35.25px;
+      &:active,
+      &:focus {
+        border-right: none;
+        border-color: $teal-hover;
+      }
     }
   }
 
-  &__text {
-    &--header {
-      margin-bottom: 8px;
+  &__list {
+    width: 100%;
+    margin-top: 30 + 25 * 3 + px ;
+    margin-bottom: 30px;
+    
+    &-block {
+      width: 100%;
+      max-width: 33%;
+
+      // &--header {
+      // }
+
+      &--timer {
+        // max-width: 40%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      &--delete {
+        text-align: right;
+        // max-width: 20%;
+      }
+    }
+
+    &-item {
+      background-color: $white;
+      box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 
+                  0px 32px 64px rgba(44, 39, 56, 0.04);
+      padding: 25px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      &:not(:last-child) {
+        margin-bottom: 13px;
+      }
+    }
+
+    &-text {
+      color: $graphite;
+
+      &--header {
+        font-size: 21px;
+      }
     }
   }
 }
+
+
+// .main {
+//   &--registration {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     height: 100%;
+//   }
+// }
+
+// .form {
+//   &--registration {
+//     background-color: $white;
+//     width: 460px;
+//     border-radius: 24px;
+//     padding: 40px 30px;
+//     box-sizing: border-box;
+//     box-shadow: 0px 12px 24px rgba(44, 39, 56, 0.02), 0px 32px 64px rgba(44, 39, 56, 0.04);
+//   }
+
+//   &__row {
+//     position: relative;
+    
+//     &--header {
+//       margin-bottom: 60px;
+//     }
+
+//     &:not(:last-child) {
+//       margin-bottom: 35.25px;
+//     }
+//   }
+
+//   &__text {
+//     &--header {
+//       margin-bottom: 8px;
+//     }
+//   }
+// }
+
