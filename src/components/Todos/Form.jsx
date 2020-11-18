@@ -10,11 +10,10 @@ function TodoForm() {
   const dispatch = useDispatch();
   const inputRef = useRef();
 
-
   const handleSubmit = _ => {
     if(inputRef.current.value === '') return false;
     
-    const todo = { title: inputRef.current.value, id: generateId(), counter : 0 };
+    const todo = { title: inputRef.current.value, id: generateId() };
     dispatch(addTodo( todo ));
 
     inputRef.current.value = '';

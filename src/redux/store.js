@@ -1,9 +1,35 @@
 import { createStore } from 'redux';
 import { persistedReducer } from './reducers';
 import { persistStore } from 'redux-persist';
+import { generateId } from '../utils/functions';
 
 const initialState = {
-  todos: [],
+  todos: [
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+    { title: 'Sample test', id: generateId(), isPaused: false, countdownAsMs: 0, countdownAsString: '00:00:00:00'},
+  ],
   modal: {
     context: null,
     isVisible: false

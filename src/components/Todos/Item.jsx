@@ -1,17 +1,21 @@
-import React, { useState, useRef } from 'react'
-import { toggleModal } from '../../redux/actions';
+import React, { useState, useRef, useEffect } from 'react'
+import { toggleModal, updateTodo } from '../../redux/actions';
 import Button from '../Controls/Button/Button'
 import { useDispatch, useStore } from 'react-redux';
 
-export default function TodoItem({id, title, counter}) {
+export default function TodoItem({id, isPaused, title, countdownAsMs, countdownAsString, buttonRef }) {
+  const [pause, setPause] = useState(isPaused)
   let timer = useRef();
   let stopwatch = useRef();
   let start = useRef();
-  let elapsed = useRef(0);
-
-  const [ isPaused, setState ] = useState(true);
+  let elapsed = useRef(countdownAsMs ? countdownAsMs : 0);
+  
   const dispatch = useDispatch();
   const store = useStore();
+
+  useEffect(() => {
+    // ...
+  }, [ isPaused ])
 
   const handleStart = _ => {
     start.current = Date.now() - elapsed.current;
@@ -36,30 +40,44 @@ export default function TodoItem({id, title, counter}) {
 
     if(store.getState().modal.isVisible) {
       const todo = { id, timer : timer.current }
-
+      
       dispatch(toggleModal({ context: todo, isVisible: false }));
     }
-
-    setState(false);
+          
+    dispatch(updateTodo({ 
+      id, 
+      isPaused : false,
+      countdownAsMs : elapsed.current,
+      countdownAsString : stopwatch.current.innerHTML
+    }));
+    
+    setPause(false)
   }
 
   const handleStop = _ => {
     if(timer.current !== undefined) {
+      const todo = { id, timer : timer.current };
+      
       if(store.getState().modal.isVisible) {
-        const todo = { id, timer : timer.current };
-        
         dispatch(toggleModal({ context: todo, isVisible: false }));
       }
       
+      dispatch(updateTodo({ 
+        id, 
+        isPaused : true,
+        countdownAsMs : elapsed.current,
+        countdownAsString : stopwatch.current.innerHTML,
+      }));
+
       clearInterval(timer.current);
     }
 
-    setState(true);
+    setPause(true)
   }
 
   const showModal = _ => {
     handleStop();
-    const todo = { id, timer : timer.current }
+    const todo = { id, timer : timer.current };
 
     dispatch(toggleModal({ context: todo, isVisible: true}));  
   }
@@ -68,9 +86,9 @@ export default function TodoItem({id, title, counter}) {
     <li className="todo__list-item">
       <p className="text text--header todo__list-block todo__list-block--header todo__list-text todo__list-text--header">{title}</p>
       <p className="text text--header todo__list-block todo__list-block--timer todo__list-text todo__list-text--header">
-        <span ref={stopwatch}>00:00:00:00</span>
+        <span ref={stopwatch}>{ countdownAsString }</span>
         { 
-          isPaused ? 
+          pause ? 
             <Button type="button" className="button button--icon button--play" onButtonClick={ handleStart }  /> : 
             <Button type="button" className="button button--icon button--pause" onButtonClick={ handleStop }  /> 
         }

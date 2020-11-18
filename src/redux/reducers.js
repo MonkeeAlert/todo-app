@@ -4,7 +4,8 @@ import { persistReducer } from 'redux-persist';
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
+  blacklist: ['modal']
 }
 
 const rootReducer = ( state, {type, payload} ) => {
@@ -25,6 +26,22 @@ const rootReducer = ( state, {type, payload} ) => {
         ...state,
         todos
       }  
+
+    case action.UPDATE_TODO:
+      const newList = state.todos.map( i => {
+        if(i.id === payload.id) {
+          i.countdownAsString = payload.countdownAsString;
+          i.countdownAsMs = payload.countdownAsMs;
+          i.isPaused = payload.isPaused;
+        }
+        
+        return i;
+      });
+      
+      return {
+        ...state,
+        todos: newList
+      }    
 
     case action.TOGGLE_MODAL:  
       return {

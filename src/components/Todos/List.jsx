@@ -3,11 +3,25 @@ import { connect } from 'react-redux'
 import TodoItem from './Item'
 
 function TodoList({todos}) {
+
   return (
     <ul className="list todo__list">
       {
         todos.map( 
-          t => <TodoItem title={t.title} key={t.id} id={t.id}/>
+          t => {
+            const { title, id, isPaused, countdownAsMs, countdownAsString } = t;
+
+            return(
+              <TodoItem 
+                title={title} 
+                key={id} 
+                id={id} 
+                isPaused={isPaused ? isPaused : true} 
+                countdownAsMs={countdownAsMs ? countdownAsMs : 0 } 
+                countdownAsString={countdownAsString ? countdownAsString : '00:00:00:00'}
+              />
+            )
+          }
         )
       }
     </ul>
